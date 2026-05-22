@@ -348,65 +348,117 @@ nav {
    MENU MOBILE OVERLAY
 ════════════════════════════════════════════════════════════════ */
 #mobile-menu {
+    /* Couvre tout l'écran, fond noir opaque */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    /* dvh couvre exactement le viewport visible, barre d'adresse iOS comprise */
-    height: 100dvh;
-    /* Fallback pour navigateurs sans support dvh */
-    min-height: 100vh;
+    height: 100dvh;     /* dynamic viewport height → gère la barre iOS  */
+    min-height: 100vh;  /* fallback navigateurs sans dvh                 */
     z-index: 60;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    background: var(--bg-mobile-menu);
-    /* On glisse depuis la droite — translateX ne touche pas à la hauteur */
+
+    /* Glissement depuis la droite */
     transform: translateX(100%);
     transition: transform 0.45s cubic-bezier(0.77, 0, 0.175, 1);
-    padding: 2rem;
-    /* Évite tout débordement interne qui créerait une scrollbar */
+
+    /* Fond toujours noir opaque, indépendant du thème */
+    background: #05070A;
+
+    /*
+     * Centrage parfait des liens au milieu absolu de l'écran.
+     * display:flex forcé ici pour battre tout reset Tailwind
+     * qui pourrait s'appliquer sur ce div.
+     */
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* centre vertical */
+
+    padding: 0 2rem;
     overflow: hidden;
-    /* Empêche Tailwind ou le body de réduire la hauteur */
     box-sizing: border-box;
 }
 #mobile-menu.active { transform: translateX(0); }
+
+/* ── Bouton ✕ — coin supérieur droit, position absolue ─────── */
 .mobile-close-btn {
     position: absolute;
-    top: 1.5rem; right: 1.5rem;
-    background: none; border: none;
-    color: var(--text-primary);
-    font-size: 1.75rem;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 2rem;
+    line-height: 1;
     cursor: pointer;
-    padding: 0.25rem;
-    min-width: 44px; min-height: 44px;
-}
-.mobile-nav-links {
+    min-width: 44px;
+    min-height: 44px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    justify-content: center;
+    transition: opacity 0.2s;
+    z-index: 1;
+}
+.mobile-close-btn:hover { opacity: 0.6; }
+
+/*
+ * ── Liens — centrage garanti
+ *
+ * On cible le DIV (pas nav) pour éviter le preflight Tailwind.
+ * display:flex !important garantit que ni Tailwind ni un autre
+ * reset ne peut le convertir en block et casser le centrage.
+ * On retire width:100% qui transformait le div en bloc et le
+ * faisait sortir du flux flex du parent.
+ */
+.mobile-nav-links {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;         /* centrage horizontal des liens         */
+    justify-content: center;     /* centrage vertical du groupe de liens  */
+    gap: clamp(1.75rem, 5vh, 2.75rem);
     text-align: center;
+    /* PAS de width:100% → le div reste un élément flex inline centré    */
 }
 .mobile-nav-links a {
-    font-size: clamp(1.6rem, 5vw, 2rem);
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
     font-weight: 900;
     font-style: italic;
     text-decoration: none;
-    color: var(--text-primary);
+    color: #ffffff;
     text-transform: uppercase;
-    transition: color 0.2s;
+    letter-spacing: -0.02em;
+    transition: color 0.2s, opacity 0.2s;
+    display: block;
+    padding: 0.2rem 0;
 }
-.mobile-nav-links a:hover { color: var(--dbz-blue); }
+.mobile-nav-links a:hover,
+.mobile-nav-links a:focus-visible {
+    color: var(--dbz-blue);
+    outline: none;
+}
+
+/* ── Icônes sociales — bas de l'écran, blanches ─────────────── */
 .mobile-socials {
+    position: absolute;
+    bottom: 2.25rem;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    gap: 1.5rem;
-    margin-top: 3rem;
-    font-size: 1.5rem;
+    gap: 1.75rem;
+    font-size: 1.6rem;
 }
-.mobile-socials a { color: var(--dbz-blue); text-decoration: none; }
+.mobile-socials a {
+    color: #ffffff;          /* blanches — minimaliste, cohérent avec le texte */
+    text-decoration: none;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+}
+.mobile-socials a:hover { opacity: 0.6; }
 
 /* ════════════════════════════════════════════════════════════════
    HERO — TEXTES FLUIDES avec clamp()
