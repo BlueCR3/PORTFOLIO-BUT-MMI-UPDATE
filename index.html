@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ethan Caraïbe | Z-Portfolio MMI</title>
 
-    <!-- Préchargement des polices critiques -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -13,10 +12,10 @@
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <!-- Polices Google — display=swap évite le FOIT -->
+    <!-- Polices Google -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
 
-    <!-- Tailwind (CDN) -->
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- CSS personnalisé -->
@@ -71,22 +70,38 @@
 
     <!-- ═══════════════════════════════════════════════════════
          MENU MOBILE
+         Structure :
+         #mobile-menu            → conteneur plein écran (flex colonne, centré)
+           .mobile-close-btn     → ✕ en haut à droite (position absolute)
+           .mobile-nav-links     → DIV flex colonne centré (pas nav → évite Tailwind preflight)
+           .mobile-socials       → icônes en bas (position absolute)
     ═══════════════════════════════════════════════════════ -->
     <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+
+        <!-- Croix fermeture -->
         <button class="mobile-close-btn" onclick="toggleMobileMenu()" aria-label="Fermer le menu">
             <i class="fas fa-times" aria-hidden="true"></i>
         </button>
-        <nav class="mobile-nav-links" aria-label="Navigation mobile">
+
+        <!-- Liens centrés — DIV explicite pour contourner le preflight Tailwind sur <nav> -->
+        <div class="mobile-nav-links" role="navigation" aria-label="Navigation mobile">
             <a href="#accueil"      onclick="toggleMobileMenu()" class="dbz-font" data-translate="nav_home">ACCUEIL</a>
             <a href="#presentation" onclick="toggleMobileMenu()" class="dbz-font" data-translate="nav_profile">PROFIL</a>
             <a href="#projets"      onclick="toggleMobileMenu()" class="dbz-font" data-translate="nav_projects">PROJETS</a>
             <a href="#competences"  onclick="toggleMobileMenu()" class="dbz-font" data-translate="nav_ki">NIVEAU DE KI</a>
             <a href="#contact"      onclick="toggleMobileMenu()" class="dbz-font" data-translate="nav_contact">CONTACT</a>
-        </nav>
-        <div class="mobile-socials">
-            <a href="https://www.linkedin.com/in/ethan-caraibe-1bb3172ba/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
-            <a href="https://www.instagram.com/blue93971/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
         </div>
+
+        <!-- Réseaux sociaux ancrés en bas -->
+        <div class="mobile-socials">
+            <a href="https://www.linkedin.com/in/ethan-caraibe-1bb3172ba/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <i class="fab fa-linkedin" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.instagram.com/blue93971/" target="_blank" rel="noopener" aria-label="Instagram">
+                <i class="fab fa-instagram" aria-hidden="true"></i>
+            </a>
+        </div>
+
     </div>
 
     <!-- ═══════════════════════════════════════════════════════
@@ -156,8 +171,8 @@
     ═══════════════════════════════════════════════════════ -->
     <div id="project-modal" class="custom-modal" onclick="closeModalOnOverlay(event)" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-body">
-            <button class="nav-arrow nav-prev hidden lg:flex" onclick="changeProject(-1)" aria-label="Projet précédent"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-            <button class="nav-arrow nav-next hidden lg:flex" onclick="changeProject(1)"  aria-label="Projet suivant"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+            <button class="nav-arrow nav-prev" onclick="changeProject(-1)" aria-label="Projet précédent"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+            <button class="nav-arrow nav-next" onclick="changeProject(1)"  aria-label="Projet suivant"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
 
             <div class="glass-card modal-inner">
                 <div class="modal-img-bg">
@@ -398,7 +413,6 @@
                 </div>
                 <iframe id="preview-iframe" src="" allow="autoplay; fullscreen" title="Prévisualisation"
                         onload="onIframeLoad()" onerror="showPreviewFallback()"></iframe>
-                <!-- Bloc aperçu image (Canva / fallback) -->
                 <div id="preview-img-block" class="preview-img-block" hidden>
                     <div class="preview-img-area">
                         <img id="preview-big-img" src="" alt="Aperçu du projet" class="preview-big-img" loading="lazy">
@@ -411,7 +425,6 @@
                         </a>
                     </div>
                 </div>
-                <!-- Fallback iframe bloquée -->
                 <div class="preview-fallback" id="preview-fallback">
                     <div class="fallback-icon-wrap" aria-hidden="true">
                         <i class="fas fa-shield-alt text-blue-500"></i>
@@ -427,7 +440,6 @@
         </div>
     </div>
 
-    <!-- Script principal — defer = non-bloquant -->
     <script src="js/script.js" defer></script>
 </body>
 </html>
