@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethan Caraïbe | Z-Portfolio MMI</title>
+
+    <!-- Préchargement des polices critiques -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Font Awesome en asynchrone (non bloquant) -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
+    <!-- Polices Google — display=swap évite le FOIT -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+
+    <!-- Tailwind (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Thème appliqué AVANT le premier paint → évite le flash -->
+    <script>
+        (function () {
+            const t = localStorage.getItem('theme');
+            if (t === 'light') document.documentElement.classList.add('light');
+        })();
+    </script>
+</head>
+<body>
+    <!-- Fond animé -->
+    <div class="aura-bg" aria-hidden="true"></div>
+    <div class="genkidama-container" aria-hidden="true"><div class="genkidama"></div></div>
+    <div id="energy-field" class="fixed inset-0 pointer-events-none z-[-1]" aria-hidden="true"></div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         NAVIGATION
+    ═══════════════════════════════════════════════════════ -->
+    <nav aria-label="Navigation principale">
+        <div class="nav-logo dbz-font">ETHAN<span class="text-blue-500">CARAÏBE</span></div>
+
+        <div class="nav-links" role="list">
+            <a href="#accueil"      class="hover:text-blue-400 transition" data-translate="nav_home">Accueil</a>
+            <a href="#presentation" class="hover:text-blue-400 transition" data-translate="nav_profile">Profil</a>
+            <a href="#projets"      class="hover:text-blue-400 transition" data-translate="nav_projects">Projets</a>
+            <a href="#competences"  class="hover:text-blue-400 transition" data-translate="nav_ki">Niveau de Ki</a>
+            <a href="#contact"      class="hover:text-blue-400 transition" data-translate="nav_contact">Contact</a>
+        </div>
+
+        <div class="nav-controls">
+            <!-- Sélecteur FR | EN -->
+            <div class="lang-switcher" id="lang-switcher" role="group" aria-label="Language selector">
+                <button class="lang-btn active" id="btn-fr" onclick="setLang('fr')" aria-label="Français">FR</button>
+                <span class="lang-sep" aria-hidden="true">|</span>
+                <button class="lang-btn" id="btn-en" onclick="setLang('en')" aria-label="English">EN</button>
+            </div>
+            <!-- Toggle thème -->
+            <button id="theme-toggle" onclick="toggleTheme()" aria-label="Changer de mode">
+                <i id="theme-icon" class="fas fa-sun" aria-hidden="true"></i>
+                <span id="theme-label" data-translate="theme_label">Mode clair</span>
+            </button>
+            <!-- Burger mobile -->
+            <button class="burger-btn" onclick="toggleMobileMenu()" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MENU MOBILE
+    ═══════════════════════════════════════════════════════ -->
+    <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+        <button class="mobile-close-btn" onclick="toggleMobileMenu()" aria-label="Fermer le menu">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+        <nav class="mobile-nav-links" aria-label="Navigation mobile">
+            <a href="#accueil"      onclick="toggleMobileMenu()" class="dbz-font" data-translate="nav_home">ACCUEIL</a>
+            <a href="#presentation" onclick="toggleMobileMenu()" class="dbz-font" data-translate="nav_profile">PROFIL</a>
+            <a href="#projets"      onclick="toggleMobileMenu()" class="dbz-font" data-translate="nav_projects">PROJETS</a>
+            <a href="#competences"  onclick="toggleMobileMenu()" class="dbz-font" data-translate="nav_ki">NIVEAU DE KI</a>
+            <a href="#contact"      onclick="toggleMobileMenu()" class="dbz-font" data-translate="nav_contact">CONTACT</a>
+        </nav>
+        <div class="mobile-socials">
+            <a href="https://www.linkedin.com/in/ethan-caraibe-1bb3172ba/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+            <a href="https://www.instagram.com/blue93971/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         HERO
+    ═══════════════════════════════════════════════════════ -->
+    <section id="accueil" class="hero-section">
+        <p class="hero-badge" data-translate="hero_badge">INFOGRAPHISTE • WEB DESIGNER</p>
+        <h1 class="dbz-font hero-title">
+            <span data-translate="hero_h1_line1">REPOUSSER LES</span><br>
+            <span class="text-blue-500 text-glow" data-translate="hero_h1_line2">LIMITES DU WEB</span>
+        </h1>
+        <p class="hero-subtitle" data-translate="hero_subtitle">
+            Inspiré par l'esthétique DB Moderne. Je fusionne design graphique, développement front-end et stratégie de communication pour créer des expériences digitales foudroyantes.
+        </p>
+        <div class="hero-btns">
+            <a href="#projets" class="btn-ki" data-translate="hero_btn_projects">Mes projets</a>
+            <a href="#contact" class="btn-outline" data-translate="hero_btn_contact">Me contacter</a>
+            <button onclick="toggleModal()" class="btn-cv">
+                <i class="fas fa-file-invoice" aria-hidden="true"></i>
+                <span data-translate="hero_btn_cv">Mon CV</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PRÉSENTATION
+    ═══════════════════════════════════════════════════════ -->
+    <section id="presentation" class="section-container">
+        <div class="glass-card about-card">
+            <i class="fas fa-user-ninja about-deco-icon" aria-hidden="true"></i>
+            <h2 class="dbz-font section-title">
+                <span data-translate="about_greeting">Bonjour, je suis</span>
+                <span class="text-blue-500"> Ethan Caraïbe</span>
+            </h2>
+            <p class="presentation-quote" data-translate="about_bio">
+                Étudiant en 3ᵉ année de BUT MMI à l'IUT de la Guadeloupe, je suis actuellement infographiste chez Pixel Services. Mon objectif est de devenir infographiste ou web designer, en alliant créativité et développement web.
+                Je développe mes compétences en programmation (HTML, CSS, PHP, Python) et en création graphique, avec une forte appétence pour les nouvelles technologies.
+            </p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PROJETS
+    ═══════════════════════════════════════════════════════ -->
+    <section id="projets" class="section-wide">
+        <h2 class="dbz-font section-title-wide">
+            <span data-translate="projects_title_prefix">Mes</span>
+            <span class="text-blue-500" data-translate="projects_title_accent"> Missions</span>
+        </h2>
+
+        <div class="filter-bar" id="filter-container" role="group" aria-label="Filtres de projets">
+            <button class="filter-btn active" data-category="Tous"         data-filter-key="filter_all">Tous</button>
+            <button class="filter-btn"        data-category="Exprimer"     data-filter-key="filter_express">Exprimer</button>
+            <button class="filter-btn"        data-category="Comprendre"   data-filter-key="filter_understand">Comprendre</button>
+            <button class="filter-btn"        data-category="Concevoir"    data-filter-key="filter_design">Concevoir</button>
+            <button class="filter-btn"        data-category="Développer"   data-filter-key="filter_develop">Développer</button>
+            <button class="filter-btn"        data-category="Entreprendre" data-filter-key="filter_undertake">Entreprendre</button>
+            <button class="filter-btn"        data-category="Entreprise"   data-filter-key="filter_enterprise">Entreprise</button>
+            <button class="filter-btn"        data-category="Personnel"    data-filter-key="filter_personal">Personnel</button>
+        </div>
+
+        <div id="project-grid" class="project-grid" aria-live="polite"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MODAL PROJET
+    ═══════════════════════════════════════════════════════ -->
+    <div id="project-modal" class="custom-modal" onclick="closeModalOnOverlay(event)" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-body">
+            <button class="nav-arrow nav-prev hidden lg:flex" onclick="changeProject(-1)" aria-label="Projet précédent"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+            <button class="nav-arrow nav-next hidden lg:flex" onclick="changeProject(1)"  aria-label="Projet suivant"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+
+            <div class="glass-card modal-inner">
+                <div class="modal-img-bg">
+                    <img id="modal-img" src="" alt="" class="modal-img" loading="lazy">
+                </div>
+                <div class="modal-text-panel">
+                    <span id="modal-cat" class="modal-category" aria-live="polite"></span>
+                    <h2 id="modal-title" class="dbz-font modal-title-text"></h2>
+                    <p id="modal-desc" class="modal-desc"></p>
+                    <div class="modal-actions">
+                        <a id="modal-link" href="#" target="_blank" rel="noopener" class="btn-ki" data-translate="modal_view_details">Voir en détails</a>
+                        <button id="preview-btn" onclick="openPreviewModal()" class="btn-modal-preview">
+                            <i class="fas fa-eye" aria-hidden="true"></i> Preview
+                        </button>
+                        <button onclick="closeProjectModal()" class="btn-modal-close" data-translate="modal_close">Fermer</button>
+                    </div>
+                    <div class="modal-nav-mobile" aria-label="Navigation entre projets">
+                        <button onclick="changeProject(-1)" class="modal-nav-btn">
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                            <span data-translate="modal_prev">Précédent</span>
+                        </button>
+                        <button onclick="changeProject(1)" class="modal-nav-btn">
+                            <span data-translate="modal_next">Suivant</span>
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button class="modal-close-x" onclick="closeProjectModal()" aria-label="Fermer">&times;</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MODAL CV
+    ═══════════════════════════════════════════════════════ -->
+    <div id="cv-modal" class="custom-modal-overlay" onclick="closeOnOverlay(event)" role="dialog" aria-modal="true" aria-label="Curriculum Vitae">
+        <div class="modal-content glass-card">
+            <button class="close-modal" onclick="toggleModal()" aria-label="Fermer">&times;</button>
+            <div class="cv-header-bar">
+                <h2 class="dbz-font cv-modal-header-title">CURRICULUM <span class="text-blue-500">VITAE</span></h2>
+                <a href="images2/CV Caraibe Ethan VF.pdf" download class="btn-ki cv-download-btn">
+                    <i class="fas fa-download" aria-hidden="true"></i>
+                    <span data-translate="cv_download">Télécharger PDF</span>
+                </a>
+            </div>
+            <div class="cv-body-bg">
+                <div class="cv-img-wrap cv-img-border">
+                    <img src="images2/CV Caraïbe Ethan VF.jpg" alt="Aperçu CV Ethan Caraïbe" class="w-full h-auto" loading="lazy"
+                         onerror="this.src='https://via.placeholder.com/800x1200?text=Aperçu+Indisponible'">
+                </div>
+            </div>
+            <p class="cv-footer-bar cv-modal-footer-text" data-translate="cv_footer">
+                Aperçu optimisé • Téléchargez le PDF pour la version complète
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         COMPÉTENCES
+    ═══════════════════════════════════════════════════════ -->
+    <section id="competences" class="section-ki">
+        <div class="ki-header">
+            <h2 class="dbz-font section-title">
+                <span data-translate="skills_title_prefix">Mon</span>
+                <span class="text-blue-500" data-translate="skills_title_accent"> Niveau de Ki</span>
+            </h2>
+            <p class="ki-subtitle" data-translate="skills_subtitle">Logiciels & Technologies maîtrisés</p>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-badge">
+                <img src="images2/DaVinci_Resolve_Studio.png" alt="DaVinci Resolve" class="skill-logo" loading="lazy">
+                <span>DaVinci</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/CapCut-Logo.png" alt="CapCut" class="skill-logo" loading="lazy">
+                <span>CapCut</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/Canva-Logo-Design-Platform-Icon.png" alt="Canva" class="skill-logo" loading="lazy">
+                <span>Canva</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/gemini-color-light (Personnalisé).png" alt="Gemini" class="skill-logo" loading="lazy">
+                <span>Gemini</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/LOGO OPENIA.png" alt="ChatGPT" class="skill-logo" loading="lazy">
+                <span>ChatGPT</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/500px-Adobe_Photoshop_CC_icon.png" alt="Photoshop" class="skill-logo" loading="lazy">
+                <span>Photoshop</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/500px-Adobe_Illustrator_CC_icon.png" alt="Illustrator" class="skill-logo" loading="lazy">
+                <span>Illustrator</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/icons8-python-240.png" alt="Python" class="skill-logo" loading="lazy">
+                <span>Python</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/500px-HTML5_logo_and_wordmark.png" alt="HTML5" class="skill-logo" loading="lazy">
+                <span>HTML5</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/500px-CSS3_logo_and_wordmark.png" alt="CSS3" class="skill-logo" loading="lazy">
+                <span>CSS3</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/500px-Unofficial_JavaScript_logo_2.png" alt="JavaScript" class="skill-logo" loading="lazy">
+                <span>JS</span>
+            </div>
+            <div class="skill-badge">
+                <img src="images2/500px-PHP-logo.png" alt="PHP" class="skill-logo" loading="lazy">
+                <span>PHP</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CONTACT
+    ═══════════════════════════════════════════════════════ -->
+    <section id="contact" class="section-contact">
+        <div class="contact-card glass-card">
+            <div class="contact-info">
+                <h2 class="dbz-font section-title">
+                    <span data-translate="contact_title_prefix">PRÊT POUR LA</span>
+                    <span class="text-blue-500 text-glow" data-translate="contact_title_accent"> FUSION ?</span>
+                </h2>
+                <p class="contact-intro" data-translate="contact_intro">Un projet en tête ou envie de discuter de mon parcours ? Envoyez-moi un signal, je réponds plus vite qu'un déplacement instantané.</p>
+                <ul class="contact-list" aria-label="Coordonnées">
+                    <li>
+                        <div class="contact-icon-wrap" aria-hidden="true"><i class="fas fa-envelope"></i></div>
+                        <a href="mailto:ethan.caraibe@gmail.com" class="contact-link-text">ethan.caraibe@gmail.com</a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/ethan-caraibe-1bb3172ba/" target="_blank" rel="noopener" class="contact-social-link">
+                            <div class="contact-icon-wrap"><i class="fab fa-linkedin-in" aria-hidden="true"></i></div>
+                            <span class="contact-link-text">linkedin.com/in/ethancaraibe</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/blue93971/" target="_blank" rel="noopener" class="contact-social-link">
+                            <div class="contact-icon-wrap"><i class="fab fa-instagram" aria-hidden="true"></i></div>
+                            <span class="contact-link-text">@blue93971</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <form id="contact-form" action="https://formspree.io/f/xnnjzego" method="POST" class="contact-form">
+                <input type="text"  name="name"    required id="input-name"    placeholder="Votre Nom"     class="form-input">
+                <input type="email" name="email"   required id="input-email"   placeholder="Votre Email"   class="form-input">
+                <textarea           name="message" required id="input-message" placeholder="Votre Message" rows="4" class="form-input form-textarea"></textarea>
+                <button type="submit" id="submit-btn" class="btn-ki form-submit">
+                    <span id="btn-text" data-translate="contact_send">Envoyer le message</span>
+                </button>
+                <p id="form-status" class="form-status" aria-live="polite"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         FOOTER
+    ═══════════════════════════════════════════════════════ -->
+    <footer>
+        <p data-translate="footer_copy">© 2026 Ethan Caraïbe — Portfolio Infographiste et Web Designer</p>
+        <p data-translate="footer_tagline">Designé et codé avec l'énergie du Super Saiyan Blue.</p>
+        <button onclick="toggleMentionsModal()" class="footer-legal-btn" data-translate="footer_legal">Mentions Légales</button>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MODAL MENTIONS LÉGALES
+    ═══════════════════════════════════════════════════════ -->
+    <div id="mentions-modal" class="custom-modal-overlay" onclick="closeMentionsOnOverlay(event)" role="dialog" aria-modal="true" aria-labelledby="mentions-title">
+        <div class="modal-content glass-card mentions-content">
+            <button class="close-modal" onclick="toggleMentionsModal()" aria-label="Fermer">&times;</button>
+            <h2 id="mentions-title" class="dbz-font mentions-heading text-blue-500">
+                <span data-translate="legal_title">Mentions</span>
+                <span data-translate="legal_title2"> Légales</span>
+            </h2>
+            <div class="mentions-body">
+                <section class="legal-section">
+                    <h3 data-translate="legal_s1_title">1. Édition du site</h3>
+                    <p data-translate="legal_s1_body">Le présent site est édité par : Ethan Caraïbe — Étudiant en BUT Métiers du Multimédia et de l'Internet (MMI) à l'IUT de la Guadeloupe à Saint-Claude — Contact : ethan.caraibe@gmail.com — Ce site a pour vocation de présenter mon parcours, mes projets académiques et personnels, ainsi que mes compétences dans le domaine du multimédia, du web et du développement.</p>
+                </section>
+                <section class="legal-section">
+                    <h3 data-translate="legal_s2_title">2. Hébergement</h3>
+                    <p data-translate="legal_s2_body">Le site est hébergé par : GitHub, Inc. — 88 Colin P. Kelly Jr Street, San Francisco, CA 94107, États-Unis — 🌐 https://pages.github.com</p>
+                </section>
+                <section class="legal-section">
+                    <h3 data-translate="legal_s3_title">3. Propriété Intellectuelle</h3>
+                    <p data-translate="legal_s3_body">L'ensemble du contenu présent sur ce site (textes, images, vidéos, logos, graphismes, codes, etc.) est la propriété exclusive d'Ethan Caraïbe, sauf mention contraire. Toute reproduction, représentation, modification, publication ou adaptation, totale ou partielle, du contenu du site, quel que soit le moyen ou le procédé utilisé, est interdite sans autorisation écrite préalable. Les visuels issus de projets scolaires ou collectifs sont présentés à titre de démonstration et restent la propriété de leurs auteurs respectifs.</p>
+                </section>
+                <section class="legal-section">
+                    <h3 data-translate="legal_s4_title">4. Collecte de données</h3>
+                    <p data-translate="legal_s4_body">Les données collectées via le formulaire de contact sont utilisées uniquement pour répondre aux messages envoyés par les visiteurs. Aucune donnée personnelle n'est transmise, vendue ou partagée avec des tiers. Conformément à la loi Informatique et Libertés et au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. Pour exercer ce droit, vous pouvez m'écrire à : ethan.caraibe@gmail.com</p>
+                </section>
+                <section class="legal-section">
+                    <h3 data-translate="legal_s5_title">5. Cookies</h3>
+                    <p data-translate="legal_s5_body">Le contenu de ce site est fourni à titre informatif. Malgré le soin apporté à la rédaction et à la mise à jour, il peut contenir des erreurs ou omissions. Ethan Caraïbe ne saurait être tenu responsable de l'utilisation faite des informations disponibles sur ce site, ni des dommages directs ou indirects pouvant en résulter.</p>
+                </section>
+                <section class="legal-section">
+                    <h3 data-translate="legal_s6_title">6. Crédits</h3>
+                    <p data-translate="legal_s6_body">Design et développement : Ethan Caraïbe — Technologies utilisées : HTML, CSS, JavaScript — Hébergement : GitHub Pages</p>
+                </section>
+            </div>
+            <div class="mentions-footer">
+                <button onclick="toggleMentionsModal()" class="btn-ki" data-translate="modal_close">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MODAL PREVIEW
+    ═══════════════════════════════════════════════════════ -->
+    <div id="preview-modal" onclick="closePreviewOnOverlay(event)" role="dialog" aria-modal="true" aria-label="Prévisualisation du projet">
+        <div class="preview-container">
+            <div class="preview-header">
+                <div class="preview-header-left">
+                    <button onclick="closePreviewModal()" class="preview-close-btn" aria-label="Fermer la prévisualisation">
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                    </button>
+                    <span id="preview-title" class="dbz-font preview-title-text"></span>
+                    <span id="preview-type-badge" class="preview-badge" hidden></span>
+                </div>
+                <div class="preview-url-bar" id="preview-url-display" aria-label="URL du projet">—</div>
+                <a id="preview-open-link" href="#" target="_blank" rel="noopener" class="btn-ki preview-open-btn">
+                    <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                    <span data-translate="preview_open">Ouvrir</span>
+                </a>
+            </div>
+            <div class="preview-iframe-wrapper">
+                <div class="preview-loading" id="preview-loading">
+                    <div class="spin-ring" aria-hidden="true"></div>
+                    <span class="dbz-font preview-loading-text" data-translate="preview_loading">Chargement...</span>
+                </div>
+                <iframe id="preview-iframe" src="" allow="autoplay; fullscreen" title="Prévisualisation"
+                        onload="onIframeLoad()" onerror="showPreviewFallback()"></iframe>
+                <!-- Bloc aperçu image (Canva / fallback) -->
+                <div id="preview-img-block" class="preview-img-block" hidden>
+                    <div class="preview-img-area">
+                        <img id="preview-big-img" src="" alt="Aperçu du projet" class="preview-big-img" loading="lazy">
+                    </div>
+                    <div class="preview-img-footer">
+                        <p id="preview-canva-title" class="dbz-font preview-canva-title"></p>
+                        <a id="preview-canva-btn" href="#" target="_blank" rel="noopener" class="btn-ki preview-open-btn">
+                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                            <span data-translate="preview_open">Ouvrir</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Fallback iframe bloquée -->
+                <div class="preview-fallback" id="preview-fallback">
+                    <div class="fallback-icon-wrap" aria-hidden="true">
+                        <i class="fas fa-shield-alt text-blue-500"></i>
+                    </div>
+                    <h3 class="dbz-font" data-translate="preview_blocked_title">Aperçu bloqué</h3>
+                    <p data-translate="preview_blocked_desc">Ce site interdit l'affichage dans un cadre externe pour des raisons de sécurité.</p>
+                    <a id="fallback-link" href="#" target="_blank" rel="noopener" class="btn-ki">
+                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        <span data-translate="preview_visit">Visiter le site</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script principal — defer = non-bloquant -->
+    <script src="js/script.js" defer></script>
+</body>
+</html>
